@@ -4,9 +4,14 @@ A key aspect of LabStream is the automation of lab components to enable precise 
 ## Mechanical Components
 <ul>
   <li>VA100/M (Slit Mount)</li>
-  <img href="images/VA100" alt="VA100">
+  <p align="center">
+  <img src="images/VA100.jpg" alt="VA100" width="200">
+  </p>
+  
   <li>XYF1/M (Pattern Mount)</li>
-  <img href="images/XYF1" alt="XYF1">
+  <p align="center">
+  <img src="images/XYF1.jpg" alt="XYF1" width="200">
+  </p>
 </ul>
 
 ## Steps of using MicroPython in Thonny IDE
