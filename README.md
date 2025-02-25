@@ -2,17 +2,21 @@
 A key aspect of LabStream is the automation of lab components to enable precise remote control.
 
 ## Mechanical Components
-<ul>
-  <li>VA100/M (Slit Mount)</li>
-  <p align="center">
+### [VA100/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=1465&pn=VA100/M) (Slit Mount)
+<p align="center">
   <img src="images/VA100.jpg" alt="VA100" width="200">
-  </p>
-  
-  <li>XYF1/M (Pattern Mount)</li>
-  <p align="center">
+</p>
+
+- Utilizes a micrometer to open/close the slit
+- Mounted in front of [RSP1D/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=246&pn=RSP1D/M)
+
+### [XYF1/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=5343&pn=XYF1/M) (Pattern Mount)
+<p align="center">
   <img src="images/XYF1.jpg" alt="XYF1" width="200">
-  </p>
-</ul>
+</p>
+
+- Mounted with pattern filters made from micro-fabrication lab
+
 
 ## Steps of using MicroPython in Thonny IDE
 Assuming Python (any version) is installed and set up already.
