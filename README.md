@@ -18,6 +18,12 @@ A key aspect of LabStream is the automation of lab components to enable precise 
 
 - Mounted with pattern filters made from micro-fabrication lab
 
+## Integrated Systems
+### Gear-driven Slit Mount
+<p align="center">
+  <img src="images/GDSM.png" alt="GDSM" width="200">
+</p>
+- A gear system that made rotation of the slit mount feasible without complexity.
 
 ## Steps of using MicroPython in Thonny IDE
 Assuming Python (any version) is installed and set up already.
