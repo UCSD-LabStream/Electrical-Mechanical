@@ -25,7 +25,8 @@ A key aspect of _LabStream_ is the **automation of lab components** to enable pr
   <img src="images/GDSM.png" alt="GDSM" width="200">
 </p>
 
-- A gear system that made rotation of the slit mount feasible without complexity.
+- A gear system that made rotation of the slit mount feasible without complexity
+- The smaller gear is driven by a 5V DC stepper motor
 
 ### Elevation Support System (ESS)
 <p align="center">
