@@ -38,6 +38,10 @@ A key aspect of _LabStream_ is the **automation of lab components** to enable pr
 - A sub-system implemented to handle **multi-directional motions**
 - The system supports the movement of micrometer without needing the top motor to move, remaining **fixed in position**
 
+## Dual-motion Pattern Mount
+- An automation system for dual-knob mechanism used in controlling movement of pattern filters
+- 
+
 ## Steps of using MicroPython in Thonny IDE
 Assuming Python (any version) is installed and set up already.
 ### 1. Download esptool
