@@ -40,8 +40,8 @@ A key aspect of _LabStream_ is the **automation of lab components** to enable pr
 
 ## Dual-motion Pattern Mount
 <p align="center">
-  <img src="images/DualMotion1.png" alt="DM1" width="200"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-  <img src="images/DualMotion2.png" alt="DM2" width="200">
+  <img src="images/DM1.png" alt="DualMotion1" width="200"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="images/DM2.png" alt="DualMotion2" width="200">
 </p>
 
 - An automation system for dual-knob mechanism used in controlling movement of pattern filters
