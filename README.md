@@ -1,5 +1,5 @@
-# Electrical-Mechanical
-A key aspect of LabStream is the automation of lab components to enable precise remote control.
+# LabStream - Electrical & Mechanial
+A key aspect of _LabStream_ is the **automation of lab components** to enable precise remote control.
 
 ## Mechanical Components
 ### [VA100/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=1465&pn=VA100/M) and [RSP1D/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=246&pn=RSP1D/M) (Slit Mount)
@@ -24,13 +24,18 @@ A key aspect of LabStream is the automation of lab components to enable precise 
 <p align="center">
   <img src="images/GDSM.png" alt="GDSM" width="200">
 </p>
+
 - A gear system that made rotation of the slit mount feasible without complexity.
 
 ### Elevation Support System (ESS)
 <p align="center">
-  <img src="images/ESS.png" alt="ESS" width="200">
+  <img src="images/ESS1.png" alt="ESS1" width="200"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="images/ESS2.png" alt="ESS2" width="200">
 </p>
 
+- **Physical limitation:** Micrometer elevates **up and down** when rotated, in order to “squeeze” the ball and thus closing the slit
+- A sub-system implemented to handle **multi-directional motions**
+- The system supports the movement of micrometer without needing the top motor to move, remaining **fixed in position**
 
 ## Steps of using MicroPython in Thonny IDE
 Assuming Python (any version) is installed and set up already.
