@@ -2,7 +2,7 @@
 A key aspect of LabStream is the automation of lab components to enable precise remote control.
 
 ## Mechanical Components
-### [VA100/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=1465&pn=VA100/M) (Slit Mount)
+### [VA100/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=1465&pn=VA100/M) and [RSP1D/M](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=246&pn=RSP1D/M) (Slit Mount)
 <p align="center">
   <img src="images/VA100.jpg" alt="VA100" width="200"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
   <img src="images/RSP1D.jpg" alt="RSP1D" width="200">
