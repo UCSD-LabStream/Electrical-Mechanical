@@ -39,8 +39,14 @@ A key aspect of _LabStream_ is the **automation of lab components** to enable pr
 - The system supports the movement of micrometer without needing the top motor to move, remaining **fixed in position**
 
 ## Dual-motion Pattern Mount
+<p align="center">
+  <img src="images/DualMotion1.png" alt="DM1" width="200"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="images/DualMotion2.png" alt="DM2" width="200">
+</p>
+
 - An automation system for dual-knob mechanism used in controlling movement of pattern filters
-- 
+- Stepper motors were mounted directly onto the knobs and attached with screw heads
+- Minimized the weight and mechanical complexity
 
 ## Steps of using MicroPython in Thonny IDE
 Assuming Python (any version) is installed and set up already.
