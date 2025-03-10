@@ -55,6 +55,8 @@ Assuming Python (any version) is installed and set up already.
 `pip3 install esptool`
 ### 2. Erase ESP32
 `esptool.exe --chip esp32 --port <port_name> erase_flash`
-### 3. Download MicroPython firmware
+### 3. Download/install MicroPython firmware
+Download the firmware: https://micropython.org/download/
+
 `esptool.exe --chip esp32 --port <port_name> write_flash -z 0x1000 “address/path of .bin firmware file”`
 ### Start coding!
