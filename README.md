@@ -48,6 +48,15 @@ A key aspect of _LabStream_ is the **automation of lab components** to enable pr
 - Stepper motors were mounted directly onto the knobs and attached with screw heads
 - Minimized the weight and mechanical complexity
 
+## Substitute of Stationary Motor Mount
+<p align="center">
+  <img src="images/SMM1.png" alt="Stationary1" width="200"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="images/SMM2.png" alt="Stationary2" width="200">
+</p>
+
+- To provide more stability, a new design was created using a stable stand
+- The mount fits the stand perfectly and thus minimizes the wiggling when operating
+
 ## Steps of using MicroPython in Thonny IDE
 Assuming Python (any version) is installed and set up already.
 ### 1. Download esptool
