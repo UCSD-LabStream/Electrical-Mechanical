@@ -1,0 +1,6 @@
+paho-mqtt
+matplotlib
+numpy
+requests
+flask
+dotenv

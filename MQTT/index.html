@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>MQTT Motor Control</title>
+  <script>
+    function loadPahoMQTT() {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.1.0/paho-mqtt.min.js';
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('Failed to load Paho MQTT library'));
+        document.head.appendChild(script);
+      });
+    }
+  </script>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    button { padding: 15px 30px; font-size: 18px; margin: 10px; cursor: pointer; }
+    #status { margin-top: 20px; padding: 10px; border-radius: 5px; font-weight: bold; }
+    .connected { background-color: #d4edda; color: #155724; }
+    .disconnected { background-color: #f8d7da; color: #721c24; }
+    .connecting { background-color: #fff3cd; color: #856404; }
+    .motor-selection { margin: 20px; }
+    label { margin: 0 10px; }
+  </style>
+</head>
+<body>
+  <h1>Stepper Motor Control</h1>
+  <div class="motor-selection">
+    <strong>Select Motors:</strong><br>
+    <label><input type="checkbox" value="1" class="motor-checkbox"> Motor 1</label>
+    <label><input type="checkbox" value="2" class="motor-checkbox"> Motor 2</label>
+  </div>
+
+  <button onclick="sendCommand('cw')">Clockwise</button>
+  <button onclick="sendCommand('ccw')">Counterclockwise</button>
+  <button onclick="sendCommand('stop')">Stop</button>
+  <div id="status" class="connecting">Loading MQTT library...</div>
+
+  <script>
+    let client;
+    const topic = "stepper/labstream/motors/control";
+
+    // WS
+    //const host = "broker.emqx.io";
+    //const port = 8084; // WebSocket with SSL
+
+    // WSS
+    const host = "labstream.ucsd.edu";
+    const port = 9001;          // your school’s wss:// URL
+    const path = "/mqtt";
+
+    let isConnected = false;
+
+    // Initialize connection when page loads
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        updateStatus("Loading MQTT library...", "connecting");
+        await loadPahoMQTT();
+        
+        // Library loaded, initialize client
+        const clientId = "webclient_" + Math.random().toString(16).substr(2, 8);
+
+        // WS
+        //client = new Paho.Client(host, port, clientId);
+
+        // WSS
+        client = new Paho.Client(host, port, path, clientId);
+        
+        // Set callback handlers
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+        
+        // Connect to broker
+        connectToBroker();
+      } catch (error) {
+        updateStatus("Error: " + error.message, "disconnected");
+        console.error("Initialization error:", error);
+      }
+    });
+
+    function updateStatus(text, statusClass) {
+      const statusElement = document.getElementById("status");
+      statusElement.textContent = text;
+      statusElement.className = statusClass;
+    }
+
+    function onConnectionLost(response) {
+      isConnected = false;
+      updateStatus("Disconnected: " + response.errorMessage, "disconnected");
+      console.log("Connection lost:", response.errorMessage);
+      setTimeout(connectToBroker, 5000);
+    }
+
+    function onMessageArrived(message) {
+      console.log("Message received:", message.payloadString);
+    }
+
+    function connectToBroker() {
+      if (isConnected) return;
+      
+      updateStatus("Connecting to broker...", "connecting");
+      
+      const options = {
+        timeout: 3,
+        useSSL: true,
+        onSuccess: () => {
+          isConnected = true;
+          updateStatus("Connected to broker!", "connected");
+          console.log("Connected to broker");
+        },
+        onFailure: (error) => {
+          isConnected = false;
+          updateStatus("Connection failed", "disconnected");
+          console.error("Connection failed:", error);
+          setTimeout(connectToBroker, 5000); // Retry after 5 seconds
+        }
+      };
+
+      try {
+        client.connect(options);
+      } catch (error) {
+        updateStatus("Connection error", "disconnected");
+        console.error("Connection error:", error);
+        setTimeout(connectToBroker, 5000);
+      }
+    }
+
+    function sendCommand(cmd) {
+      if (!isConnected) {
+        updateStatus("Not connected - trying to reconnect...", "disconnected");
+        connectToBroker();
+        return;
+      }
+
+      const selectedMotors = Array.from(document.querySelectorAll('.motor-checkbox:checked')).map(cb => parseInt(cb.value));
+
+      if (selectedMotors.length === 0) {
+        alert("Please select at least one motor.");
+        return;
+      }
+
+      selectedMotors.forEach(motor => {
+        const payload = JSON.stringify({ motor: motor, command: cmd });
+        const message = new Paho.Message(payload);
+        message.destinationName = topic;
+        client.send(message);
+        console.log(`Command sent to motor ${motor}: ${cmd}`);
+      });
+    }
+  </script>
+</body>
+</html>
