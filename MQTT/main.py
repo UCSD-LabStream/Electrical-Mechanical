@@ -7,11 +7,9 @@ import threading
 import logging
 import time
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Load environment variables
 load_dotenv()
 
 # Initialize Flask app
@@ -62,7 +60,7 @@ def reconnect(client):
         try:
             logger.info("Attempting to reconnect to MQTT broker...")
             client.reconnect()
-            time.sleep(5)  # Wait before next attempt
+            time.sleep(5) 
         except Exception as e:
             logger.error(f"Reconnection failed: {str(e)}")
             time.sleep(5)
@@ -99,7 +97,6 @@ def main():
         client.connect("labstream.ucsd.edu", 9001, keepalive=60)
         client.loop_start()
 
-        # Start web server
         web_thread = threading.Thread(target=run_flask_app, daemon=True)
         web_thread.start()
 

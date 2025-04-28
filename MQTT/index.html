@@ -15,14 +15,30 @@
     }
   </script>
   <style>
-    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
-    button { padding: 15px 30px; font-size: 18px; margin: 10px; cursor: pointer; }
-    #status { margin-top: 20px; padding: 10px; border-radius: 5px; font-weight: bold; }
-    .connected { background-color: #d4edda; color: #155724; }
-    .disconnected { background-color: #f8d7da; color: #721c24; }
-    .connecting { background-color: #fff3cd; color: #856404; }
-    .motor-selection { margin: 20px; }
-    label { margin: 0 10px; }
+    body { 
+      font-family: sans-serif; text-align: center; margin-top: 50px;
+    }
+    button { 
+      padding: 15px 30px; font-size: 18px; margin: 10px; cursor: pointer; 
+    }
+    #status { 
+      margin-top: 20px; padding: 10px; border-radius: 5px; font-weight: bold; 
+    }
+    .connected { 
+      background-color: #d4edda; color: #155724; 
+    }
+    .disconnected { 
+      background-color: #f8d7da; color: #721c24; 
+    }
+    .connecting { 
+      background-color: #fff3cd; color: #856404; 
+    }
+    .motor-selection { 
+      margin: 20px; 
+    }
+    label { 
+      margin: 0 10px; 
+    }
   </style>
 </head>
 <body>
@@ -53,13 +69,13 @@
 
     let isConnected = false;
 
-    // Initialize connection when page loads
+    // Initialize when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       try {
         updateStatus("Loading MQTT library...", "connecting");
         await loadPahoMQTT();
         
-        // Library loaded, initialize client
+        // Initialize client
         const clientId = "webclient_" + Math.random().toString(16).substr(2, 8);
 
         // WS
@@ -114,7 +130,7 @@
           isConnected = false;
           updateStatus("Connection failed", "disconnected");
           console.error("Connection failed:", error);
-          setTimeout(connectToBroker, 5000); // Retry after 5 seconds
+          setTimeout(connectToBroker, 5000); // Retry after 5s
         }
       };
 

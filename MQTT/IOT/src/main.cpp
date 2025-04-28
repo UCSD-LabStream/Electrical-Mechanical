@@ -33,7 +33,7 @@ const char* mqtt_topic = "stepper/labstream/motors/control";
 // Global variables
 WiFiClient wifiClient;
 WebSocketsClient webSocketClient;
-PubSubClient mqttClient(wifiClient);  // Use WiFiClient for MQTT connection
+PubSubClient mqttClient(wifiClient);
 
 // Stepper motors initialization
 Stepper stepper1(STEPS_PER_REV, M1_IN1, M1_IN3, M1_IN2, M1_IN4);
@@ -42,10 +42,9 @@ Stepper stepper2(STEPS_PER_REV, M2_IN1, M2_IN3, M2_IN2, M2_IN4);
 int selectedMotor = 1;  // Default to motor 1
 String currentCommand = "";
 
-// Forward declaration of the WebSocket event function
 void webSocketEvent(WStype_t type, uint8_t* payload, size_t length);
 
-// Function to connect to WiFi
+// Connect to WiFi
 void setup_wifi() {
   Serial.println();
   Serial.print("Connecting to ");
@@ -135,7 +134,7 @@ void webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
 }
 
 
-// Connect to MQTT broker via WebSocket
+// Connect to MQTT broker via WS
 void reconnect() {
   while (!mqttClient.connected()) {
     Serial.print("Attempting MQTT connection...");
@@ -177,9 +176,8 @@ void setup() {
 }
 
 void loop() {
-  // MQTT loop for message processing
   mqttClient.loop();
-  webSocketClient.loop();  // Ensure WebSocket connection is active
+  webSocketClient.loop();
 
   Stepper* motor = (selectedMotor == 2) ? &stepper2 : &stepper1;
 
@@ -195,5 +193,5 @@ void loop() {
     currentCommand = "";
   }
 
-  delay(3);  // Delay for smoother motor control
+  delay(3);
 }

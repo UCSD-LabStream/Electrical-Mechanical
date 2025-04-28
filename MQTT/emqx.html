@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>MQTT Motor Control</title>
   <script>
-    // Load Paho MQTT library dynamically
     function loadPahoMQTT() {
       return new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -46,7 +45,6 @@
   <div id="status" class="connecting">Loading MQTT library...</div>
 
   <script>
-    // Global variables
     let client;
     const topic = "stepper/labstream/motors/control";
     const host = "broker.emqx.io";
@@ -56,13 +54,13 @@
     //const port = 9001;
     let isConnected = false;
 
-    // Initialize connection when page loads
+    // Initialize when page loads
     window.addEventListener('DOMContentLoaded', async () => {
       try {
         updateStatus("Loading MQTT library...", "connecting");
         await loadPahoMQTT();
         
-        // Library loaded, initialize client
+        // Initialize client
         const clientId = "webclient_" + Math.random().toString(16).substr(2, 8);
         client = new Paho.Client(host, port, clientId);
         
@@ -88,7 +86,7 @@
       isConnected = false;
       updateStatus("Disconnected: " + response.errorMessage, "disconnected");
       console.log("Connection lost:", response.errorMessage);
-      setTimeout(connectToBroker, 5000); // Retry after 5 seconds
+      setTimeout(connectToBroker, 5000); // Retry after 5s
     }
 
     function onMessageArrived(message) {
@@ -112,7 +110,7 @@
           isConnected = false;
           updateStatus("Connection failed", "disconnected");
           console.error("Connection failed:", error);
-          setTimeout(connectToBroker, 5000); // Retry after 5 seconds
+          setTimeout(connectToBroker, 5000); // Retry after 5s
         }
       };
 
