@@ -17,9 +17,8 @@ app = Flask(__name__)
 
 # Configuration
 BASE_TOPIC = os.getenv("BASE_TOPIC", "stepper/labstream/motors")
-BROKER = "broker.emqx.io"
 #BROKER = "labstream.ucsd.edu"
-CONTROL_TOPIC = f"{BASE_TOPIC}/control"
+CONTROL_TOPIC = f"{BASE_TOPIC}/control1"
 WEB_PORT = 5000
 
 # Initialize MQTT client for raw TCP
@@ -93,7 +92,6 @@ def main():
         # if raw TCP works
         #client.connect(BROKER, 1883, 60)
         # If only WS
-        #client.connect(BROKER, 9001, 60)
         client.connect("labstream.ucsd.edu", 9001, keepalive=60)
         client.loop_start()
 
