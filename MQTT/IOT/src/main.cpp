@@ -1,8 +1,14 @@
 #include <WiFi.h>
-#include <AsyncMqttClient.h>
-#include <ArduinoJson.h>
 #include <Stepper.h>
 #include "esp_wpa2.h"
+
+// MQTTS
+#include <WiFiClientSecure.h>
+#include <PubSubClient.h>
+
+// MQTT
+// #include <AsyncMqttClient.h>
+// #include <ArduinoJson.h>
 
 // WiFi credentials
 const char* ssid = "UCSD-PROTECTED";
@@ -16,7 +22,7 @@ const char* password = "6265222296aA";
 // MQTT broker config
 const char* mqtt_server = "labstream.ucsd.edu";
 const int   mqtt_port   = 1883;  // Using raw TCP port
-const char* mqtt_path   = "/mqtt";
+// const char* mqtt_path   = "/mqtt";
 
 // Topics: image_motor_H, image_motor_V, filter_motor_H, filter_motor_V
 /*
@@ -66,8 +72,16 @@ Stepper stepper4(STEPS_PER_REV, M4_IN1, M4_IN3, M4_IN2, M4_IN4);
 
 int selectedMotor = 1;  // Default to motor 1
 String currentCommand = "";
+
+// MQTT
+/*
 WiFiClient net;
 AsyncMqttClient mqttClient;
+*/
+
+// MQTTS
+WiFiClientSecure secureClient;
+PubSubClient mqttClient(secureClient);
 
 void setup_wifi() {
   Serial.println();
@@ -100,6 +114,7 @@ void setup_wifi() {
   }
 }
 
+/*
 void onMqttConnect(bool sessionPresent) {
   Serial.println("Connected to MQTT");
   Serial.print("Session present: ");
@@ -148,6 +163,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
     }
   }
 }
+*/
 
 void stopMotor(int motorNum) {
   switch(motorNum) {
@@ -190,6 +206,47 @@ void testBrokerConnection() {
   }
 }
 
+// MQTTS callback
+void mqttCallback(char* topic, byte* payload, unsigned int length) {
+  String msg;
+  for (unsigned int i = 0; i < length; i++) {
+    msg += (char)payload[i];
+  }
+
+  Serial.printf("Message arrived [%s]: %s\n", topic, msg.c_str());
+
+  String topicStr(topic);
+  if (topicStr == mqtt_topic_1) selectedMotor = 1;
+  else if (topicStr == mqtt_topic_2) selectedMotor = 2;
+  else if (topicStr == mqtt_topic_3) selectedMotor = 3;
+  else if (topicStr == mqtt_topic_4) selectedMotor = 4;
+
+  if (msg == "cw" || msg == "ccw" || msg == "stop") {
+    currentCommand = msg;
+  }
+}
+
+// MQTTS reconnect
+void reconnect() {
+  while (!mqttClient.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (mqttClient.connect("ESP32Client")) {
+      Serial.println("connected");
+
+      mqttClient.subscribe(mqtt_topic_1);
+      mqttClient.subscribe(mqtt_topic_2);
+      mqttClient.subscribe(mqtt_topic_3);
+      mqttClient.subscribe(mqtt_topic_4);
+
+      Serial.println("Subscribed to motor topics");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(mqttClient.state());
+      delay(5000);
+    }
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   
@@ -216,6 +273,9 @@ void setup() {
   // Connect WiFi and MQTT
   setup_wifi();
 
+
+  // MQTT
+  /*
   testBrokerConnection();
   
   // MQTT callbacks
@@ -226,10 +286,22 @@ void setup() {
   // Set server and connect
   mqttClient.setServer(mqtt_server, mqtt_port);
   mqttClient.connect();
+  */
+
+  // MQTTS
+  secureClient.setInsecure();
+
+  mqttClient.setServer(mqtt_server, mqtt_port);
+  mqttClient.setCallback(mqttCallback);
   
 }
 
 void loop() {
+  // MQTTS
+  if (!mqttClient.connected()) {
+    reconnect();
+  }
+  mqttClient.loop();
   
   Stepper* motor;
   if (selectedMotor == 1) motor = &stepper1;
