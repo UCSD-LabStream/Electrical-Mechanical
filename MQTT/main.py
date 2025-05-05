@@ -17,17 +17,22 @@ app = Flask(__name__)
 
 # Configuration
 BASE_TOPIC = os.getenv("BASE_TOPIC", "stepper/labstream/motors")
-#BROKER = "labstream.ucsd.edu"
+BROKER = "labstream.ucsd.edu"
 CONTROL_TOPIC = f"{BASE_TOPIC}/control1"
 WEB_PORT = 5000
 
-# Initialize MQTT client for raw TCP
+# Initialize MQTT client
+
+# WebSocket
+# client = mqtt.Client(client_id=None, transport="websockets", protocol=mqtt.MQTTv311)
+# client.ws_set_options(path="/mqtt")
+# client.tls_set()
+# client.tls_insecure_set(True)
+
+# Raw TCP
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-# If only WS
-client = mqtt.Client(client_id=None, transport="websockets", protocol=mqtt.MQTTv311)
-client.ws_set_options(path="/mqtt")
-client.tls_set()
-#client.tls_insecure_set(True)  # Uncomment if want to skip certificate verification
+client.tls_set()  # For MQTTS over TLS (port 8883)
+client.tls_insecure_set(True) 
 
 # Initialize client connection status
 client_connected = False
@@ -90,9 +95,10 @@ def main():
     
     try:
         # if raw TCP works
-        #client.connect(BROKER, 1883, 60)
+        client.connect(BROKER, 1883, 60)
         # If only WS
-        client.connect("labstream.ucsd.edu", 9001, keepalive=60)
+        #client.connect("labstream.ucsd.edu", 9001, keepalive=60)
+        
         client.loop_start()
 
         web_thread = threading.Thread(target=run_flask_app, daemon=True)
